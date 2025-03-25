@@ -24,6 +24,9 @@ export class MainComponent {
 
   constructor() {
     this.jugadores = this.jugadorService.getAllJugadores();
+
+    console.log("Test");
+    console.log(this.jugadores);
   }
 
   ngOnInit() {
