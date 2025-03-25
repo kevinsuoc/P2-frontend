@@ -1,0 +1,24 @@
+<div class="detail-container p-6 bg-white rounded-lg shadow-lg max-w-xl w-full">
+    <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">{{jugador.Nombre}}</h2>
+  
+    <div class="grid grid-cols-2 gap-4 text-gray-700">
+      <p><span class="font-semibold">Posición:</span> {{jugador.Posicion}}</p>
+      <p><span class="font-semibold">Dorsal:</span> {{jugador.Dorsal}}</p>
+      <p><span class="font-semibold">Edad:</span> {{jugador.Edad}}</p>
+      <p><span class="font-semibold">Altura:</span> {{jugador.Altura}}</p>
+      <p><span class="font-semibold">Nacionalidad:</span> {{jugador.Nacionalidad}}</p>
+    </div>
+  
+    <p class="mt-4 text-gray-600"><span class="font-semibold">Descripción:</span> {{jugador.Descripcion}}</p>
+  
+    <div class="mt-4" *ngIf="jugador">
+      <app-media [jugador]="jugador"></app-media>
+    </div>
+  
+    <div class="mt-6 flex justify-end">
+      <button (click)="clearPlayer()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+        Cerrar
+      </button>
+    </div>
+  </div>
+  

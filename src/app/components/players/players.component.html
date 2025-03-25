@@ -1,0 +1,5 @@
+<div class="flex flex-row flex-wrap gap-10 w-full p-6"  *ngIf="jugadores">
+    <div *ngFor="let jugador of jugadores | filtroPlayers:filterType:filterValue">
+      <app-player-card [jugador]="jugador" class="mx-auto"></app-player-card>
+    </div>
+</div>
