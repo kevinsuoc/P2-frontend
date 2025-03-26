@@ -27,7 +27,7 @@ export class MainComponent {
   }
 
   async ngOnInit() {
-    this.jugadores = await this.jugadoresService.getJugadores();
+    this.jugadores = this.jugadoresService.getJugadores();
     this.playerClickService.jugador$.subscribe((jugador?: Jugador) => {
       this.jugador = jugador;
     });
