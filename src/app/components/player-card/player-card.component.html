@@ -2,11 +2,10 @@
   (click)="selectPlayer($event)"
   class="group relative block overflow-hidden w-80 rounded-3xl shadow-md bg-white"
 >
-  <span class="sr-only">Carta jugador {{ jugador.Nombre }}</span>
+<span class="sr-only">Carta jugador {{ jugador.Nombre }}</span>
 
   <img
-    [src]="'/public/assets/image/players/' + jugador.id + '.jpg'"
-    [alt]="jugador.Nombre"
+    [src]="jugador.Image ? '/public/assets/image/players/' + jugador.Image: '/public/assets/image/players/default.webp'"
     class="h-64 w-80 object-cover transition duration-500 group-hover:scale-105 sm:h-72 cursor-pointer"
   />
 

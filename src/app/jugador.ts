@@ -7,6 +7,8 @@ export interface Jugador {
     Altura: string;
     Nacionalidad: string;
     Descripcion: string;
+    Image?: string;
+    Video?: string;
 }
 
 export const jugadorConverter = {
@@ -19,7 +21,9 @@ export const jugadorConverter = {
             Edad:jugador.Edad,
             Altura:jugador.Altura,
             Nacionalidad:jugador.Nacionalidad,
-            Descripcion: jugador.Descripcion
+            Descripcion: jugador.Descripcion,
+            Image: jugador.Image,
+            Video: jugador.Video
             };
     },
     fromFirestore: (snapshot: any, options: any) => {
@@ -34,7 +38,9 @@ export const jugadorConverter = {
             Edad: data.Edad,
             Altura: data.Altura,
             Nacionalidad: data.Nacionalidad,
-            Descripcion: data.Descripcion
+            Descripcion: data.Descripcion,
+            Image: data.Image,
+            Video: data.Video
         }
         return jugador;
     }
