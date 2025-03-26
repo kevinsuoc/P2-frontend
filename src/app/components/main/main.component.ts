@@ -16,14 +16,18 @@ import { JugadorService } from '../../jugador.service';
 export class MainComponent {
   @Input() jugadores!: Jugador[];
   jugador?: Jugador;
-  filterType?: string;
-  filterValue?: string;
+  filterType: string = '';
+  filterValue: string = '';
 
   playerClickService: playerClickService = inject(playerClickService);
   jugadoresService: JugadorService = inject(JugadorService);
 
+  constructor(){
+    this.jugadores = [];
+  }
+
   async ngOnInit() {
-    this.jugadores = this.jugadoresService.getJugadores();
+    this.jugadores = await this.jugadoresService.getJugadores();
     this.playerClickService.jugador$.subscribe((jugador?: Jugador) => {
       this.jugador = jugador;
     });

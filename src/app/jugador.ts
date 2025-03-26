@@ -1,5 +1,7 @@
+import { FirestoreDataConverter } from "@angular/fire/firestore";
+
 export interface Jugador {
-    id: number;
+    id?: string;
     Nombre: string;
     Dorsal: number;
     Posicion: string;
@@ -11,10 +13,9 @@ export interface Jugador {
     Video?: string;
 }
 
-export const jugadorConverter = {
+export const jugadorConverter  :FirestoreDataConverter<Jugador> = {
     toFirestore: (jugador: Jugador) => {
         return {
-            id: jugador.id,
             Nombre: jugador.Nombre,
             Dorsal:jugador.Dorsal,
             Posicion:jugador.Posicion,
@@ -31,7 +32,7 @@ export const jugadorConverter = {
 
         const data = snapshot.data(options);
         jugador = {
-            id: data.id,
+            id: snapshot.id,
             Nombre: data.Nombre,
             Dorsal: data.Dorsal,
             Posicion: data.Posicion,

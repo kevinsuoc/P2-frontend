@@ -11,7 +11,7 @@ import { Jugador } from '../../jugador';
   styleUrl: './players.component.css'
 })
 export class PlayersComponent {
-  @Input() jugadores?: Jugador[];
-  @Input() filterType?: string;
-  @Input() filterValue?: string;
+  @Input() jugadores!: Jugador[];
+  @Input() filterType: string = '';
+  @Input() filterValue: string = '';
 }

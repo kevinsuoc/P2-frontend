@@ -1,24 +1,77 @@
 <div class="detail-container p-6 bg-white rounded-lg shadow-lg max-w-xl w-full">
-    <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">{{jugador.Nombre}}</h2>
+    <div  *ngIf="!edit; else editForm">
+      <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">{{jugador.Nombre}}</h2>
   
-    <div class="grid grid-cols-2 gap-4 text-gray-700">
-      <p><span class="font-semibold">Posición:</span> {{jugador.Posicion}}</p>
-      <p><span class="font-semibold">Dorsal:</span> {{jugador.Dorsal}}</p>
-      <p><span class="font-semibold">Edad:</span> {{jugador.Edad}}</p>
-      <p><span class="font-semibold">Altura:</span> {{jugador.Altura}}</p>
-      <p><span class="font-semibold">Nacionalidad:</span> {{jugador.Nacionalidad}}</p>
-    </div>
+      <div class="grid grid-cols-2 gap-4 text-gray-700">
+        <p><span class="font-semibold">Posición:</span> {{jugador.Posicion}}</p>
+        <p><span class="font-semibold">Dorsal:</span> {{jugador.Dorsal}}</p>
+        <p><span class="font-semibold">Edad:</span> {{jugador.Edad}}</p>
+        <p><span class="font-semibold">Altura:</span> {{jugador.Altura}}</p>
+        <p><span class="font-semibold">Nacionalidad:</span> {{jugador.Nacionalidad}}</p>
+      </div>
+    
+      <p class="mt-4 text-gray-600"><span class="font-semibold">Descripción:</span> {{jugador.Descripcion}}</p>
+    
+      <div class="mt-4" *ngIf="jugador">
+        <app-media [jugador]="jugador"></app-media>
+      </div>
+    
+      <div class="mt-6 flex justify-end">
+        <button (click)="editPlayer()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-3 rounded">
+          Editar
+        </button>
   
-    <p class="mt-4 text-gray-600"><span class="font-semibold">Descripción:</span> {{jugador.Descripcion}}</p>
-  
-    <div class="mt-4" *ngIf="jugador">
-      <app-media [jugador]="jugador"></app-media>
-    </div>
-  
-    <div class="mt-6 flex justify-end">
-      <button (click)="clearPlayer()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-        Cerrar
-      </button>
+        <button (click)="clearPlayer()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+          Cerrar
+        </button>
+      </div>
     </div>
   </div>
+
+
+  <ng-template #editForm>
+
+    
+    <div class="w-full"><input class="w-full text-2xl text-center font-bold mb-4 text-blue-600" id="nombre" type="text" [formControl] = "nombreControl"></div>
   
+    <div class="grid grid-cols-2 gap-4 text-gray-700">
+      <div>
+        <label for="posicion" class="font-semibold">Posición: </label>
+        <input id="posicion" type="text" [formControl] = "posicionControl">
+      </div>
+      <div>
+        <label for="dorsal" class="font-semibold">Dorsal: </label>
+        <input id="dorsal" type="number" [formControl] = "dorsalControl">
+      </div>
+      <div>
+        <label for="edad" class="font-semibold">Edad: </label>
+        <input id="edad" type="number" [formControl] = "edadControl">
+      </div>
+      <div>
+        <label for="altura" class="font-semibold">Altura: </label>
+        <input id="altura" type="text" [formControl] = "alturaControl">
+      </div>
+      <div>
+        <label for="nacionalidad" class="font-semibold">Nacionalidad: </label>
+      </div>
+      <input id="nacionalidad" type="text" [formControl] = "nacionalidadControl">
+
+    </div>
+  
+    <p class="mt-4 text-gray-600">
+      <label for="descripcion" class="font-semibold">Descripción: </label>
+      <input id="descripcion" type="text" [formControl] = "descripcionControl">
+    </p>
+
+    <div class="mt-6 flex justify-end">
+      <button (click)="cancelEdit()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 mr-3 rounded">
+        Cancelar
+      </button>
+    
+      <button (click)="acceptEdit()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+        Aceptar
+      </button>  
+    </div>
+
+
+  </ng-template>

@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Jugador, jugadorConverter } from './jugador';
-import { Subject } from 'rxjs';
-import { Firestore, getDocs, collection, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot, doc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +18,30 @@ export class JugadorService {
                 querySnapshot.forEach((doc) => {
                     jugadores.push(doc.data());
                 });
+                jugadores.sort((a, b) => {return a.Dorsal - b.Dorsal});
             }
         );
         return jugadores;
     }
-
-    // async getJugadores(): Promise<Jugador[]> {
-
+    
+    updateJugador(jugador: Jugador){
         
-    //     const querySnapshot = await getDocs(collection(this.firestore, "jugadores").withConverter(jugadorConverter));
-    //     return querySnapshot.docs.map(doc => doc.data());
-    // }
+        const jugadorData: any = {
+            id: jugador.id,
+            Nombre: jugador.Nombre,
+            Dorsal: jugador.Dorsal,
+            Posicion: jugador.Posicion,
+            Edad: jugador.Edad,
+            Altura: jugador.Altura,
+            Nacionalidad: jugador.Nacionalidad,
+            Descripcion: jugador.Descripcion,
+        };
+        if (jugador.Image !== undefined)
+            jugadorData.Image = jugador.Image;
+        if (jugador.Video !== undefined)
+            jugadorData.Video = jugador.Video;
+        
+        const jugadorDoc = doc(this.firestore, 'jugadores', jugador.id!).withConverter(jugadorConverter);
+        return updateDoc(jugadorDoc, jugadorData);
+    }
 }
