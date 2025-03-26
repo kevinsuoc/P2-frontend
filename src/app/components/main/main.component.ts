@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { PlayersComponent } from "../players/players.component";
 import { DetailComponent  } from '../detail/detail.component';
 import { Jugador } from '../../jugador';
-import { JugadoresService } from '../../jugadores.service';
 import { NgIf } from '@angular/common';
 import { playerClickService } from '../../playerClick.service';
+import { JugadorService } from '../../jugador.service';
 
 @Component({
   selector: 'app-main',
@@ -14,22 +14,16 @@ import { playerClickService } from '../../playerClick.service';
 })
 
 export class MainComponent {
+  @Input() jugadores!: Jugador[];
   jugador?: Jugador;
-  jugadores: Jugador[] = [];
   filterType?: string;
   filterValue?: string;
 
-  jugadorService: JugadoresService = inject(JugadoresService);
   playerClickService: playerClickService = inject(playerClickService);
+  jugadoresService: JugadorService = inject(JugadorService);
 
-  constructor() {
-    this.jugadores = this.jugadorService.getAllJugadores();
-
-    console.log("Test");
-    console.log(this.jugadores);
-  }
-
-  ngOnInit() {
+  async ngOnInit() {
+    this.jugadores = this.jugadoresService.getJugadores();
     this.playerClickService.jugador$.subscribe((jugador?: Jugador) => {
       this.jugador = jugador;
     });

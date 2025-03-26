@@ -1,6 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JugadoresService } from '../../jugadores.service';
 import { Jugador } from '../../jugador';
 import { playerClickService } from '../../playerClick.service';
 import { NgIf } from '@angular/common';
@@ -15,7 +14,6 @@ import { MediaComponent } from '../media/media.component';
 export class DetailComponent {
   @Input() jugador!: Jugador;
   route: ActivatedRoute = inject(ActivatedRoute);
-  JugadorService = inject(JugadoresService);
 
   playerClickService: playerClickService = inject(playerClickService);
 
