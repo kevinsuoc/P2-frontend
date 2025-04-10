@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Jugador } from './jugador';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class playerClickService {
-    private jugadorSubject = new Subject<Jugador | undefined>();
-    jugador$ = this.jugadorSubject.asObservable();
+  private jugadorSubject = new BehaviorSubject<Jugador | undefined>(undefined);
+  jugador$ = this.jugadorSubject.asObservable();
 
-    playerClicked(jugador: Jugador) {
-        this.jugadorSubject.next(jugador);
-    }
+  playerClicked(jugador: Jugador) {
+    this.jugadorSubject.next(jugador);
+  }
 
-    playerHidden() {
-        this.jugadorSubject.next(undefined);
-    }
+  playerHidden() {
+    this.jugadorSubject.next(undefined);
+  }
 }

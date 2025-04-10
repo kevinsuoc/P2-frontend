@@ -15,18 +15,27 @@ export interface Jugador {
 
 export const jugadorConverter  :FirestoreDataConverter<Jugador> = {
     toFirestore: (jugador: Jugador) => {
-        return {
-            Nombre: jugador.Nombre,
-            Dorsal:jugador.Dorsal,
-            Posicion:jugador.Posicion,
-            Edad:jugador.Edad,
-            Altura:jugador.Altura,
-            Nacionalidad:jugador.Nacionalidad,
-            Descripcion: jugador.Descripcion,
-            Image: jugador.Image,
-            Video: jugador.Video
-            };
-    },
+        const data: any = {
+          Nombre: jugador.Nombre,
+          Dorsal: jugador.Dorsal,
+          Posicion: jugador.Posicion,
+          Edad: jugador.Edad,
+          Altura: jugador.Altura,
+          Nacionalidad: jugador.Nacionalidad,
+          Descripcion: jugador.Descripcion,
+        };
+      
+        if (jugador.Image) {
+          data.Image = jugador.Image;
+        }
+      
+        if (jugador.Video) {
+          data.Video = jugador.Video;
+        }
+      
+        return data;
+      },
+      
     fromFirestore: (snapshot: any, options: any) => {
         let jugador: Jugador;
 

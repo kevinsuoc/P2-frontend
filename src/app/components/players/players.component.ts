@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import { PlayerCardComponent } from '../player-card/player-card.component';
 import { FiltroPlayerPipe } from '../../pipes/filtro-players.pipe';
 import { NgFor, NgIf } from '@angular/common';
 import { Jugador } from '../../jugador';
 import { FormsModule } from '@angular/forms';
+import { AddPlayerComponent } from '../add-player/add-player.component';
+
 
 @Component({
   selector: 'app-players',
@@ -12,22 +14,52 @@ import { FormsModule } from '@angular/forms';
     PlayerCardComponent,
     FiltroPlayerPipe,
     NgFor,
-    FormsModule // <-- Esto soluciona el error
+    NgIf,
+    FormsModule, // <-- Esto soluciona el error
+    AddPlayerComponent
   ],
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.css']
 })
 
-export class PlayersComponent implements OnInit {
+//he cambiado a onChanges ya que al añadir jugadores puede que onInit no estuviera listo para los filtros de los jugadores
+export class PlayersComponent implements OnChanges {
   @Input() jugadores: Jugador[] = [];
 
   filtroNombre: string = '';
   filtroPosicion: string = '';
   posicionesDisponibles: string[] = [];
+  formularioVisible: boolean = false;
 
-  ngOnInit(): void {
+  posiciones = [
+    'Base',
+    'Escolta',
+    'Alero',
+    'Ala-Pivot',
+    'Pivot'
+  ];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['jugadores'] && this.jugadores.length > 0) {
+      this.actualizarPosiciones();
+    }
+  }
+
+  actualizarPosiciones() {
     this.posicionesDisponibles = [
-      ...new Set(this.jugadores.map((j) => j.Posicion))
+      ...new Set(this.jugadores.map(j => j.Posicion))
     ].sort();
+  }
+
+  createForm() {
+    this.formularioVisible = true;
+  }
+
+  hideForm() {
+    this.formularioVisible = false;
+  }
+
+  refrescarLista() {
+    this.hideForm();
   }
 }
