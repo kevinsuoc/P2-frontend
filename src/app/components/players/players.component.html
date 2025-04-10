@@ -1,5 +1,19 @@
+<div class="flex flex-row gap-4 items-center p-4">
+  <input
+    type="text"
+    [(ngModel)]="filtroNombre"
+    placeholder="Buscar por nombre o apellido"
+    class="p-2 border rounded w-64"
+  />
+
+  <select [(ngModel)]="filtroPosicion" class="p-2 border rounded">
+    <option value="">Todas las posiciones</option>
+    <option *ngFor="let pos of posicionesDisponibles" [value]="pos">{{ pos }}</option>
+  </select>
+</div>
+
 <div class="flex flex-row flex-wrap gap-10 w-full p-6">
-    <div *ngFor="let jugador of jugadores | filtroPlayers:filterType:filterValue">
-      <app-player-card [jugador]="jugador" class="mx-auto"></app-player-card>
-    </div>
+  <div *ngFor="let jugador of jugadores | filtroPlayers:filtroNombre:filtroPosicion">
+    <app-player-card [jugador]="jugador" class="mx-auto"></app-player-card>
+  </div>
 </div>
