@@ -58,4 +58,24 @@ export class JugadorService {
     const jugadorRef = doc(this.firestore, 'jugadores', jugador.id!).withConverter(jugadorConverter);
     return await setDoc(jugadorRef, jugador);
   }
+
+  async penjarACloudinary(file: File, resourceType: 'image' | 'video'): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'jugadores_unsigned');
+  
+    const cloudName = 'dt32twhnq';
+    const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+  
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData
+    });
+  
+    const data = await response.json();
+  
+    if (!response.ok) throw new Error(data.error?.message || 'Upload failed');
+  
+    return data.secure_url;
+  }
 }

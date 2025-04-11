@@ -13,6 +13,8 @@ export class PlayerCardComponent {
   @Input() jugador!: Jugador;
   selected: boolean = false;
 
+  public defaultAvatar: String = 'https://res.cloudinary.com/dt32twhnq/image/upload/v1744402427/default_ine6rb.webp';
+
   playerClickService: playerClickService = inject(playerClickService);
 
     ngOnInit() {

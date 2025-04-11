@@ -41,9 +41,6 @@
   <ng-template #editForm>
     <div class="w-full">
       <input class="w-full text-2xl text-center font-bold mb-4 text-blue-600 border-b border-gray-300 focus:outline-none" id="nombre" type="text" [formControl]="nombreControl" />
-      <div *ngIf="nombreControl.invalid && nombreControl.touched" class="text-red-500 text-sm">
-        El nombre es obligatorio.
-      </div>
     </div>
   
     <div class="grid grid-cols-2 gap-4 text-gray-700">
@@ -52,31 +49,22 @@
         <select id="posicion" [formControl]="posicionControl" class="w-full border border-gray-300 p-2 rounded">
           <option *ngFor="let pos of posiciones" [value]="pos">{{ pos }}</option>
         </select>
-        <div *ngIf="posicionControl.invalid && posicionControl.touched" class="text-red-500 text-sm">
-          La posición es obligatoria.
-        </div>
       </div>
   
       <div>
         <label for="dorsal" class="font-semibold">Dorsal:</label>
         <input id="dorsal" type="number" class="w-full border border-gray-300 p-2 rounded" [formControl]="dorsalControl" />
-        <div *ngIf="dorsalControl.invalid && dorsalControl.touched" class="text-red-500 text-sm">
-          El dorsal es obligatorio.
-        </div>
       </div>
   
       <div>
         <label for="edad" class="font-semibold">Edad:</label>
         <input id="edad" type="number" class="w-full border border-gray-300 p-2 rounded" [formControl]="edadControl" />
-        <div *ngIf="edadControl.invalid && edadControl.touched" class="text-red-500 text-sm">
-          La edad es obligatoria.
-        </div>
       </div>
   
       <div>
         <label for="altura" class="font-semibold">Altura:</label>
         <input id="altura" type="text" class="w-full border border-gray-300 p-2 rounded" [formControl]="alturaControl" />
-        <div *ngIf="alturaControl.invalid && alturaControl.touched" class="text-red-500 text-sm">
+        <div *ngIf="alturaControl.get('Altura')?.invalid && alturaControl.get('Altura')?.touched" class="text-red-500 text-sm">
           La altura es obligatoria.
         </div>
       </div>
@@ -84,9 +72,6 @@
       <div class="col-span-2">
         <label for="nacionalidad" class="font-semibold">Nacionalidad:</label>
         <input id="nacionalidad" type="text" class="w-full border border-gray-300 p-2 rounded" [formControl]="nacionalidadControl" />
-        <div *ngIf="nacionalidadControl.invalid && nacionalidadControl.touched" class="text-red-500 text-sm">
-          La nacionalidad es obligatoria.
-        </div>
       </div>
     </div>
   
@@ -100,17 +85,6 @@
         class="w-full border border-gray-300 rounded p-2 mt-1 resize-none overflow-hidden leading-tight"
         [formControl]="descripcionControl"
       ></textarea>
-      <div *ngIf="descripcionControl.invalid && descripcionControl.touched" class="text-red-500 text-sm">
-        La descripción es obligatoria.
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label class="font-semibold">Imagen</label>
-      <input type="file" (change)="onImageSelected($event)" accept="image/*" class="border p-2 rounded" />
-
-      <label class="font-semibold">Vídeo</label>
-      <input type="file" (change)="onVideoSelected($event)" accept="video/*" class="border p-2 rounded" />
     </div>
   
     <div class="mt-6 flex justify-end">
@@ -122,3 +96,4 @@
       </button>
     </div>
   </ng-template>
+  

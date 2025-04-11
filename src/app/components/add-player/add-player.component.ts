@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Jugador } from '../../jugador';
-import { JugadorService } from '../../jugador.service';
+import { Jugador } from '@root/src/app/jugador';
+import { JugadorService } from '@root/src/app/jugador.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -53,6 +53,7 @@ export class AddPlayerComponent {
   }
 
   async onSubmit() {
+    const defaultAvatar = 'https://res.cloudinary.com/dt32twhnq/image/upload/v1744402427/default_ine6rb.webp'
     if (this.playerForm.invalid) return;
 
     const jugador: Jugador = {
@@ -62,22 +63,35 @@ export class AddPlayerComponent {
 
     try {
       if (this.selectedImageFile) {
-        jugador.Image = await this.jugadorService.uploadFile(
-          this.selectedImageFile,
-          `jugadores/${jugador.id}/imagen`
-        );
+        jugador.Image = await this.jugadorService.penjarACloudinary(this.selectedImageFile, 'image');
       } else {
-        delete jugador.Image;
+        jugador.Image = defaultAvatar;
       }
-
+      
       if (this.selectedVideoFile) {
-        jugador.Video = await this.jugadorService.uploadFile(
-          this.selectedVideoFile,
-          `jugadores/${jugador.id}/video`
-        );
+        jugador.Video = await this.jugadorService.penjarACloudinary(this.selectedVideoFile, 'video');
       } else {
         delete jugador.Video;
       }
+
+
+      // if (this.selectedImageFile) {
+      //   jugador.Image = await this.jugadorService.uploadFile(
+      //     this.selectedImageFile,
+      //     `jugadores/${jugador.id}/imagen`
+      //   );
+      // } else {
+      //   delete jugador.Image;
+      // }
+
+      // if (this.selectedVideoFile) {
+      //   jugador.Video = await this.jugadorService.uploadFile(
+      //     this.selectedVideoFile,
+      //     `jugadores/${jugador.id}/video`
+      //   );
+      // } else {
+      //   delete jugador.Video;
+      // }
 
       await this.jugadorService.insertarJugador(jugador);
 
@@ -87,6 +101,7 @@ export class AddPlayerComponent {
 
     } catch (error) {
       console.error('Error al guardar el jugador:', error);
+      console.error(error);
       alert('Hubo un error al guardar el jugador.');
     }
   }

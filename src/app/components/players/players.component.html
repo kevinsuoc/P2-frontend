@@ -40,7 +40,7 @@
     <app-player-card [jugador]="jugador" class="mx-auto"></app-player-card>
   </div>
 </div> -->
-<div class="grid grid-cols-4 gap-8 w-full justify-center p-6">
+<div class="flex flex-row flex-wrap gap-10 w-full justify-center py-6">
   <div *ngFor="let jugador of jugadores | filtroPlayers:filtroNombre:filtroPosicion">
     <app-player-card [jugador]="jugador" class="mx-auto"></app-player-card>
   </div>

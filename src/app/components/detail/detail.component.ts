@@ -4,7 +4,7 @@ import { playerClickService } from '../../playerClick.service';
 import { NgIf, NgFor } from '@angular/common';
 import { MediaComponent } from '../media/media.component';
 import { SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JugadorService } from '../../jugador.service';
 
@@ -24,18 +24,36 @@ import { JugadorService } from '../../jugador.service';
 export class DetailComponent {
   @Input() jugador!: Jugador;
   edit: boolean;
-  nombreControl = new FormControl('');
-  dorsalControl = new FormControl(0);
-  posicionControl = new FormControl('');
-  nacionalidadControl = new FormControl('');
-  alturaControl = new FormControl('');
-  descripcionControl = new FormControl('');
-  edadControl = new FormControl(0);
+  nombreControl = new FormControl('', Validators.required);
+  dorsalControl = new FormControl(0, Validators.required);
+  posicionControl = new FormControl('', Validators.required);
+  nacionalidadControl = new FormControl('', Validators.required);
+  alturaControl = new FormControl('', Validators.required);
+  descripcionControl = new FormControl('', Validators.required);
+  edadControl = new FormControl(0, Validators.required);
+  defaultAvatar = 'https://res.cloudinary.com/dt32twhnq/image/upload/v1744402427/default_ine6rb.webp'
+
+  selectedImageFile?: File;
+  selectedVideoFile?: File;
 
   posiciones: string[] = ['Base', 'Escolta', 'Alero', 'Ala-Pivot', 'Pivot'];
 
   jugadorService: JugadorService = inject(JugadorService);
   playerClickService: playerClickService = inject(playerClickService);
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedImageFile = input.files[0];
+    }
+  }
+
+  onVideoSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedVideoFile = input.files[0];
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['jugador']) {
@@ -81,7 +99,7 @@ export class DetailComponent {
     this.edit = false;
   }
 
-  acceptEdit(){
+  async acceptEdit(){
     this.edit = false;
     this.jugador.Nombre = this.nombreControl.getRawValue()!;
     this.jugador.Dorsal = this.dorsalControl.getRawValue()!;
@@ -90,7 +108,28 @@ export class DetailComponent {
     this.jugador.Altura = this.alturaControl.getRawValue()!;
     this.jugador.Descripcion = this.descripcionControl.getRawValue()!;
     this.jugador.Edad = this.edadControl.getRawValue()!;
+    
+    try{
+      if (this.selectedImageFile) {
+        this.jugador.Image = await this.jugadorService.penjarACloudinary(this.selectedImageFile, 'image');
+        console.log(this.jugador.Image);
+      } else {
+        this.jugador.Image = this.defaultAvatar;
+      }
+      
+      if (this.selectedVideoFile) {
+        this.jugador.Video = await this.jugadorService.penjarACloudinary(this.selectedVideoFile, 'video');
+        console.log(this.jugador.Video);
+      } else {
+        delete this.jugador.Video;
+      }
+    } catch (error) {
+      console.error('Error al guardar el jugador:', error);
+      console.error(error);
+      alert('Hubo un error al guardar el jugador.');
+    }
     this.jugadorService.updateJugador(this.jugador);
+    
   }
 
   constructor() {

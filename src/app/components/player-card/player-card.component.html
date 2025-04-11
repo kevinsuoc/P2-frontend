@@ -4,8 +4,13 @@
 >
 <span class="sr-only">Carta jugador {{ jugador.Nombre }}</span>
 
-  <img
+  <!-- <img
     [src]="jugador.Image ? '/public/assets/image/players/' + jugador.Image: '/public/assets/image/players/default.webp'"
+    class="h-64 w-80 object-cover transition duration-500 group-hover:scale-105 sm:h-72 cursor-pointer"
+  /> -->
+  <img
+    [src]="jugador.Image ? jugador.Image: defaultAvatar"
+    (onerror)= defaultAvatar
     class="h-64 w-80 object-cover transition duration-500 group-hover:scale-105 sm:h-72 cursor-pointer"
   />
 
