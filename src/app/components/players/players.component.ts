@@ -53,10 +53,12 @@ export class PlayersComponent implements OnChanges {
 
   createForm() {
     this.formularioVisible = true;
+    document.body.classList.add('overflow-hidden');
   }
-
+  
   hideForm() {
     this.formularioVisible = false;
+    document.body.classList.remove('overflow-hidden');
   }
 
   refrescarLista() {
